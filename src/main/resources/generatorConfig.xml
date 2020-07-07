@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+<properties resource="datasource.properties" />
+
+    <context id="MysqlTables" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <!-- 为模型生成序列化方法-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- 为生成的Java模型创建一个toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!--生成mapper.xml时覆盖原文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+
+
+        <commentGenerator>
+            <property name="suppressDate" value="false"/>
+            <property name="addRemarkComments" value="true"/>
+            <property name="suppressAllComments" value="false"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/mall?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC"
+                        userId="root"
+                        password="root">
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.online.mall.dto"
+                            targetProject="src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mappers" targetProject="src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.online.mall.mapper"
+                             targetProject="src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+
+<!--        <table schema="ins_personal_claim" tableName="claim_apply_record" enableCountByExample="true" domainObjectName="ClaimApplyRecord">-->
+<!--            <columnOverride column="apply_for" javaType="com.jd.ins.personal.claim.domain.enums.ApplyForType" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>-->
+<!--            <ignoreColumn column="create_time"/>-->
+<!--            <ignoreColumn column="update_time"/>-->
+<!--        </table>-->
+
+<!--        <table schema="ins_personal_claim" tableName="claim_image_info" enableCountByExample="false" domainObjectName="ClaimImageInfo">-->
+<!--            <columnOverride column="image_type" javaType="com.jd.ins.personal.claim.domain.enums.ImageType" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>-->
+<!--            <ignoreColumn column="create_time"/>-->
+<!--            <ignoreColumn column="update_time"/>-->
+<!--        </table>-->
+        <!--生成全部表tableName设为%-->
+        <table tableName="%">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+    </context>
+</generatorConfiguration>
