@@ -34,8 +34,12 @@ public class CommonResult {
         return new ResponseResult<T>().setCode(ResultCode.FAIL.code).setMsg(ResultCode.FAIL.msg).setData(data);
     }
 
-    public static <T> ResponseResult<T> serverError(T data) {
-        return new ResponseResult<T>().setCode(ResultCode.INTERNAL_SERVER_ERROR.code).setMsg(ResultCode.INTERNAL_SERVER_ERROR.msg).setData(data);
+    public static <T> ResponseResult<T> serverError() {
+        return new ResponseResult<T>().setCode(ResultCode.INTERNAL_SERVER_ERROR.code).setMsg(ResultCode.INTERNAL_SERVER_ERROR.msg);
+    }
+
+    public static <T> ResponseResult<T> serverError(String msg) {
+        return new ResponseResult<T>().setCode(ResultCode.INTERNAL_SERVER_ERROR.code).setMsg(msg);
     }
 
     public static <T> ResponseResult<T> makeRsp(int code, String msg) {

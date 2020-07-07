@@ -1,7 +1,10 @@
 package com.online.mall.controller;
 
+import com.online.mall.dto.AdminInf;
+import com.online.mall.service.AdminService;
 import com.online.mall.utils.api.CommonResult;
 import com.online.mall.utils.api.ResponseResult;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class TestController {
 
+
+    
     @GetMapping("/hello")
     public ResponseResult<String> helloController(){
 
         return CommonResult.success();
     }
+
+
 }
