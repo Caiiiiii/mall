@@ -22,3 +22,9 @@ pwd:root
  mappers ： 数据库操作层
  
  
+ 
+## 需要配置
+### 热部署
+https://blog.csdn.net/ljk126wy/article/details/88042169
+ 
+ 
