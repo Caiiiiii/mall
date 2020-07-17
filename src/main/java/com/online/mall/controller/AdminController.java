@@ -1,15 +1,13 @@
 package com.online.mall.controller;
 
-import com.online.mall.dto.AdminInf;
+import com.online.mall.dto.AdminInfo;
 import com.online.mall.service.AdminService;
 import com.online.mall.utils.api.CommonResult;
 import com.online.mall.utils.api.ResponseResult;
-import org.apache.ibatis.annotations.Param;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ClassName AdminController
@@ -22,13 +20,17 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    @ApiOperation("根据名字查找一个用户")
     @GetMapping("/info")
-    public ResponseResult<AdminInf> getAdminInfoByName(@RequestParam("name") String name){
+    public ResponseResult<AdminInfo> getAdminInfoByName(@RequestParam("name") @ApiParam("名字") String name){
        try {
-           AdminInf adminInf = adminService.getAdminInfoByName(name);
-           return CommonResult.success(adminInf);
+           AdminInfo adminInfo = adminService.getAdminInfoByName(name);
+           return CommonResult.success(adminInfo);
        }catch (Exception e){
            return CommonResult.serverError(e.toString());
        }
     }
+
+//    @PostMapping("/register")
+//    public ResponseResult<AdminInfo> register(@RequestBody )
 }

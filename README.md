@@ -8,6 +8,10 @@ user:root
 pwd:root  
 将sql文件夹下的文件在mall数据库执行即可
 
+## 需要配置
+### 热部署
+https://blog.csdn.net/ljk126wy/article/details/88042169
+
 
 ## 简述
 ### 项目结构
@@ -22,9 +26,12 @@ pwd:root
  mappers ： 数据库操作层
  
  
+ ##关于接口
+ ###采用swagger接口文档
+ 访问 http://localhost:8081/swagger-ui.html
  
-## 需要配置
-### 热部署
-https://blog.csdn.net/ljk126wy/article/details/88042169
+ 
+ 
+
  
  
