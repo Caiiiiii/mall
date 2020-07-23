@@ -1,16 +1,32 @@
 package com.online.mall.config;
 
+import com.online.mall.config.authHandler.FuryAuthFailureHandler;
+import com.online.mall.config.authHandler.FuryAuthSuccessHandler;
+import com.online.mall.config.authHandler.MyLogoutSuccessHandler;
+import com.online.mall.config.authHandler.RestAuthAccessDeniedHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @ClassName SecurityConfig
@@ -20,6 +36,44 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
+
+    /**
+     * 依赖注入自定义的登录成功处理器
+     */
+    @Autowired
+    private FuryAuthSuccessHandler furyAuthSuccessHandler;
+    /**
+     * 依赖注入自定义的登录失败处理器
+     */
+    @Autowired
+    private FuryAuthFailureHandler furyAuthFailureHandler;
+    /**
+     * 依赖注入自定义的注销成功的处理器
+     */
+    @Autowired
+    private MyLogoutSuccessHandler myLogoutSuccessHandler;
+
+
+    /**
+     * 注册没有权限的处理器
+     */
+    @Autowired
+    private RestAuthAccessDeniedHandler restAuthAccessDeniedHandler;
+
+    /***注入自定义的CustomPermissionEvaluator*/
+    @Bean
+    public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
+        DefaultWebSecurityExpressionHandler handler = new DefaultWebSecurityExpressionHandler();
+        handler.setPermissionEvaluator(new AdminPermissionEvaluator());
+        return handler;
+    }
+
+    /***注入我们自己的登录逻辑验证器AuthenticationProvider*/
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
+
+
+
     @Bean
     @Override
     protected UserDetailsService userDetailsService() {
@@ -35,8 +89,36 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().anyRequest().permitAll().and().logout().permitAll().and().csrf().disable();;
+        http.authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("")
+                .loginProcessingUrl("/login")
+                .successHandler(new AuthenticationSuccessHandler() {
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
+                                                        HttpServletResponse httpServletResponse,
+                                                        Authentication authentication)
+                            throws IOException, ServletException {
+                        // do something
 
+                    }
+                })
+                .failureHandler(new AuthenticationFailureHandler() {
+                    @Override
+                    public void onAuthenticationFailure(HttpServletRequest httpServletRequest,
+                                                        HttpServletResponse httpServletResponse,
+                                                        AuthenticationException e)
+                            throws IOException, ServletException {
+                        // do something
+                    }
+                })
+                .permitAll()
+                .and()
+                .csrf().disable();
+//
     }
 
 }
