@@ -103,4 +103,6 @@ public interface AdminInfoMapper {
      * @mbg.generated Fri Jul 17 15:24:47 CST 2020
      */
     int updateByPrimaryKey(AdminInfo record);
+
+    void addAdminInfo(AdminInfo adminInfo);
 }

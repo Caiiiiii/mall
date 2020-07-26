@@ -2,9 +2,11 @@ package com.online.mall.service.serviceImpl;
 
 import com.online.mall.dto.AdminInfo;
 import com.online.mall.dto.AdminLogin;
+import com.online.mall.dto.param.AdminParam;
 import com.online.mall.mapper.AdminInfoMapper;
 import com.online.mall.mapper.AdminLoginMapper;
 import com.online.mall.service.AdminService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,12 +14,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+
 /**
  * @ClassName AdminServiceImpl
  * @Create by Cai on 2020/7/7 15:42
  **/
 @Service
+
 public class AdminServiceImpl implements AdminService, UserDetailsService {
+
 
     @Autowired
     private AdminInfoMapper adminInfoMapper;
@@ -38,11 +49,34 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 
     @Transactional
     @Override
-    public int register(AdminInfo adminInfo, AdminLogin adminLogin) {
-        int adminLoginId = adminLoginMapper.insert(adminLogin);
-        adminInfo.setAdminId(adminLoginId);
-        int adminInfoId = adminInfoMapper.insert(adminInfo);
-        return adminInfoId;
+    public AdminLogin register(AdminParam adminParam) {
+        try{
+            AdminLogin adminLogin = new AdminLogin();
+            BeanUtils.copyProperties(adminParam,adminLogin);
+            adminLogin.setUserStats((byte) 1);
+            adminLogin.setModifiedTime(new Date());
+//        AdminLoginExample example = new AdminLoginExample();
+//        example.createCriteria().andLoginNameEqualTo(adminLogin.getLoginName());
+
+            //查找数据库是否有这个人
+            if(findAdminByUserName(adminLogin.getLoginName()) != null){
+                return null ;
+            }
+            int primary = adminLoginMapper.insert(adminLogin);
+
+            //插入 AdminInfo 信息
+            AdminInfo adminInfo = new AdminInfo();
+            BeanUtils.copyProperties(adminParam,adminInfo);
+            adminInfo.setAdminId(adminLogin.getAdminId());
+            adminInfo.setModifiedTime(new Date());
+            adminInfo.setRegisterTime(new Date());
+            adminInfoMapper.insert(adminInfo);
+            return adminLogin;
+        }catch (Exception e){
+             e.printStackTrace();
+        }
+        return  null;
+
     }
 
     @Override

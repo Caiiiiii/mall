@@ -61,16 +61,16 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     private RestAuthAccessDeniedHandler restAuthAccessDeniedHandler;
 
     /***注入自定义的CustomPermissionEvaluator*/
-    @Bean
-    public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
-        DefaultWebSecurityExpressionHandler handler = new DefaultWebSecurityExpressionHandler();
-        handler.setPermissionEvaluator(new AdminPermissionEvaluator());
-        return handler;
-    }
-
-    /***注入我们自己的登录逻辑验证器AuthenticationProvider*/
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
+//    @Bean
+//    public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
+//        DefaultWebSecurityExpressionHandler handler = new DefaultWebSecurityExpressionHandler();
+//        handler.setPermissionEvaluator(new AdminPermissionEvaluator());
+//        return handler;
+//    }
+//
+//    /***注入我们自己的登录逻辑验证器AuthenticationProvider*/
+//    @Autowired
+//    private AuthenticationProvider authenticationProvider;
 
 
 
@@ -90,11 +90,13 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
+                .antMatchers("/register").permitAll()
                 .anyRequest()
                 .authenticated()
+
                 .and()
-                .formLogin()
-                .loginPage("")
+            .formLogin()
+                .loginPage("/login.html")
                 .loginProcessingUrl("/login")
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override

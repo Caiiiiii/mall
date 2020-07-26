@@ -3,7 +3,12 @@ package com.online.mall.mapper;
 import com.online.mall.dto.AdminLogin;
 import com.online.mall.dto.AdminLoginExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
+
 
 public interface AdminLoginMapper {
     /**
@@ -94,5 +99,11 @@ public interface AdminLoginMapper {
      */
     int updateByPrimaryKey(AdminLogin record);
 
+    @Select(value = "select * from admin_login where login_name = #{0} limit 1")
     AdminLogin findAdminByUserName(String username);
+
+    /**
+     * 添加AdminLogin 信息
+     * */
+    void addAdminLogin(AdminLogin adminLogin);
 }

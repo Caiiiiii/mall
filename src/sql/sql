@@ -14,7 +14,7 @@
  Date: 07/07/2020 15:38:09
 */
 
-SET NAMES utf8mb4;
+SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -24,16 +24,16 @@ DROP TABLE IF EXISTS `admin_info`;
 CREATE TABLE `admin_info`  (
   `admin_info_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主键ID',
   `admin_id` int(0) UNSIGNED NOT NULL COMMENT 'admin_login表的自增ID',
-  `admin_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '管理员真实姓名',
+  `admin_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '管理员真实姓名',
   `identity_card_type` tinyint(0) NOT NULL DEFAULT 1 COMMENT '证件类型：1 身份证,2军官证,3护照',
-  `identity_card_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '证件号码',
+  `identity_card_no` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '证件号码',
   `mobile_phone` int(0) UNSIGNED NULL DEFAULT NULL COMMENT '手机号',
-  `admin_email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `gender` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '性别',
+  `admin_email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `gender` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
   `register_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '注册时间',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`admin_info_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '管理员信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for admin_login
@@ -41,12 +41,12 @@ CREATE TABLE `admin_info`  (
 DROP TABLE IF EXISTS `admin_login`;
 CREATE TABLE `admin_login`  (
   `admin_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '管理员ID',
-  `login_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '管理员登陆名',
-  `password` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'md5加密的密码',
+  `login_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '管理员登陆名',
+  `password` char(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'md5加密的密码',
   `user_stats` tinyint(0) NOT NULL DEFAULT 1 COMMENT '管理员状态',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`admin_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '管理员登陆表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员登陆表' ROW_FORMAT = Dynamic;
 
 
 -- ----------------------------
@@ -60,7 +60,7 @@ CREATE TABLE `admin_login_log`  (
   `login_ip` int(0) UNSIGNED NOT NULL COMMENT '登录IP',
   `login_type` tinyint(0) NOT NULL COMMENT '登录类型:0未成功 1成功',
   PRIMARY KEY (`login_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '管理员登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员登录日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for role_info
@@ -75,7 +75,7 @@ CREATE TABLE `role_info` (
   `status` int(1) DEFAULT '1' COMMENT '启用状态：0->禁用；1->启用',
   `sort` int(11) DEFAULT '0',
   PRIMARY KEY (`role_id`)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
 
 
 -- ----------------------------
@@ -87,7 +87,7 @@ CREATE TABLE `admin_role_relation` (
   `admin_id` bigint(20) DEFAULT NULL COMMENT '管理员ID',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`admin_role_id`)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '管理员和角色关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员和角色关系表' ROW_FORMAT = Dynamic;
 
 
 
@@ -108,7 +108,7 @@ CREATE TABLE `permission_info` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`permission_id`)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
 
 
 -- ----------------------------
@@ -120,7 +120,7 @@ CREATE TABLE `role_permission_relation` (
   `role_id` bigint(20) DEFAULT NULL,
   `permission_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`role_permission_id`)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色和权限关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色和权限关系表' ROW_FORMAT = Dynamic;
 
 
 -- ----------------------------
@@ -135,7 +135,7 @@ CREATE TABLE `customer_balance_log`  (
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录生成时间',
   `amount` decimal(8, 2) NOT NULL DEFAULT 0.00 COMMENT '变动金额',
   PRIMARY KEY (`balance_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户余额变动表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户余额变动表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for customer_info
@@ -144,12 +144,12 @@ DROP TABLE IF EXISTS `customer_info`;
 CREATE TABLE `customer_info`  (
   `customer_info_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主键ID',
   `customer_id` int(0) UNSIGNED NOT NULL COMMENT 'customer_login表的自增ID',
-  `customer_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户真实姓名',
+  `customer_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户真实姓名',
   `identity_card_type` tinyint(0) NOT NULL DEFAULT 1 COMMENT '证件类型：1 身份证,2军官证,3护照',
-  `identity_card_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '证件号码',
+  `identity_card_no` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '证件号码',
   `mobile_phone` int(0) UNSIGNED NULL DEFAULT NULL COMMENT '手机号',
-  `customer_email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `gender` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '性别',
+  `customer_email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `gender` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
   `user_point` int(0) NOT NULL DEFAULT 0 COMMENT '用户积分',
   `register_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '注册时间',
   `birthday` datetime(0) NULL DEFAULT NULL COMMENT '会员生日',
@@ -157,7 +157,7 @@ CREATE TABLE `customer_info`  (
   `user_money` decimal(8, 2) NOT NULL DEFAULT 0.00 COMMENT '用户余额',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`customer_info_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for customer_level_info
@@ -165,12 +165,12 @@ CREATE TABLE `customer_info`  (
 DROP TABLE IF EXISTS `customer_level_info`;
 CREATE TABLE `customer_level_info`  (
   `customer_level` tinyint(0) NOT NULL AUTO_INCREMENT COMMENT '会员级别ID',
-  `level_name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '会员级别名称',
+  `level_name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '会员级别名称',
   `min_point` int(0) UNSIGNED NOT NULL DEFAULT 0 COMMENT '该级别最低积分',
   `max_point` int(0) UNSIGNED NOT NULL DEFAULT 0 COMMENT '该级别最高积分',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`customer_level`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for customer_login
@@ -178,12 +178,12 @@ CREATE TABLE `customer_level_info`  (
 DROP TABLE IF EXISTS `customer_login`;
 CREATE TABLE `customer_login`  (
   `customer_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `login_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户登陆名',
-  `password` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'md5加密的密码',
+  `login_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户登陆名',
+  `password` char(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'md5加密的密码',
   `user_stats` tinyint(0) NOT NULL DEFAULT 1 COMMENT '用户状态',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`customer_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户登陆表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户登陆表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for customer_login_log
@@ -196,7 +196,7 @@ CREATE TABLE `customer_login_log`  (
   `login_ip` int(0) UNSIGNED NOT NULL COMMENT '登录IP',
   `login_type` tinyint(0) NOT NULL COMMENT '登录类型:0未成功 1成功',
   PRIMARY KEY (`login_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户登录日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for customer_point_log
@@ -210,7 +210,7 @@ CREATE TABLE `customer_point_log`  (
   `change_point` smallint(0) NOT NULL DEFAULT 0 COMMENT '变更积分数',
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '积分日志生成时间',
   PRIMARY KEY (`point_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户积分日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户积分日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for order_cart
@@ -225,7 +225,7 @@ CREATE TABLE `order_cart`  (
   `add_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '加入购物车时间',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`cart_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '购物车表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '购物车表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for order_customer_addr
@@ -238,11 +238,11 @@ CREATE TABLE `order_customer_addr`  (
   `province` smallint(0) NOT NULL COMMENT '地区表中省份的id',
   `city` smallint(0) NOT NULL COMMENT '地区表中城市的id',
   `district` smallint(0) NOT NULL COMMENT '地区表中的区id',
-  `address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '具体的地址门牌号',
+  `address` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '具体的地址门牌号',
   `is_default` tinyint(0) NOT NULL COMMENT '是否默认',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`customer_addr_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户地址表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户地址表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for order_detail
@@ -252,7 +252,7 @@ CREATE TABLE `order_detail`  (
   `order_detail_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主键ID,订单详情表ID',
   `order_id` int(0) UNSIGNED NOT NULL COMMENT '订单表ID',
   `product_id` int(0) UNSIGNED NOT NULL COMMENT '订单商品ID',
-  `product_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品名称',
+  `product_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品名称',
   `product_cnt` int(0) NOT NULL DEFAULT 1 COMMENT '购买商品数量',
   `product_price` decimal(8, 2) NOT NULL COMMENT '购买商品单价',
   `average_cost` decimal(8, 2) NOT NULL DEFAULT 0.00 COMMENT '平均成本价格',
@@ -261,7 +261,7 @@ CREATE TABLE `order_detail`  (
   `w_id` int(0) UNSIGNED NOT NULL COMMENT '仓库ID',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`order_detail_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单详情表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单详情表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for order_master
@@ -271,29 +271,29 @@ CREATE TABLE `order_master`  (
   `order_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '订单ID',
   `order_sn` bigint(0) UNSIGNED NOT NULL COMMENT '订单编号 yyyymmddnnnnnnnn',
   `customer_id` int(0) UNSIGNED NOT NULL COMMENT '下单人ID',
-  `shipping_user` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收货人姓名',
+  `shipping_user` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '收货人姓名',
   `province` smallint(0) NOT NULL COMMENT '收货人所在省',
   `city` smallint(0) NOT NULL COMMENT '收货人所在市',
   `district` smallint(0) NOT NULL COMMENT '收货人所在区',
-  `address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收货人详细地址',
+  `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '收货人详细地址',
   `payment_method` tinyint(0) NOT NULL COMMENT '支付方式:1现金,2余额,3网银,4支付宝,5微信',
   `order_money` decimal(8, 2) NOT NULL COMMENT '订单金额',
   `district_money` decimal(8, 2) NOT NULL DEFAULT 0.00 COMMENT '优惠金额',
   `shipping_money` decimal(8, 2) NOT NULL DEFAULT 0.00 COMMENT '运费金额',
   `payment_money` decimal(8, 2) NOT NULL DEFAULT 0.00 COMMENT '支付金额',
-  `shipping_comp_name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '快递公司名称',
-  `shipping_sn` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '快递单号',
+  `shipping_comp_name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '快递公司名称',
+  `shipping_sn` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '快递单号',
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '下单时间',
   `shipping_time` datetime(0) NULL DEFAULT NULL COMMENT '发货时间',
   `pay_time` datetime(0) NULL DEFAULT NULL COMMENT '支付时间',
   `receive_time` datetime(0) NULL DEFAULT NULL COMMENT '收货时间',
   `order_status` tinyint(0) NOT NULL DEFAULT 0 COMMENT '订单状态',
   `order_point` int(0) UNSIGNED NOT NULL DEFAULT 0 COMMENT '订单积分',
-  `invoice_title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '发票抬头',
+  `invoice_title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发票抬头',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`order_id`) USING BTREE,
   UNIQUE INDEX `ux_ordersn`(`order_sn`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单主表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单主表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_brand_info
@@ -301,16 +301,16 @@ CREATE TABLE `order_master`  (
 DROP TABLE IF EXISTS `product_brand_info`;
 CREATE TABLE `product_brand_info`  (
   `brand_id` smallint(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '品牌ID',
-  `brand_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '品牌名称',
-  `telephone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '联系电话',
-  `brand_web` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '品牌网站',
-  `brand_logo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '品牌logo URL',
-  `brand_desc` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '品牌描述',
+  `brand_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '品牌名称',
+  `telephone` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '联系电话',
+  `brand_web` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '品牌网站',
+  `brand_logo` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '品牌logo URL',
+  `brand_desc` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '品牌描述',
   `brand_status` tinyint(0) NOT NULL DEFAULT 0 COMMENT '品牌状态,0禁用,1启用',
   `brand_order` tinyint(0) NOT NULL DEFAULT 0 COMMENT '排序',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`brand_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '品牌信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '品牌信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_category
@@ -318,14 +318,14 @@ CREATE TABLE `product_brand_info`  (
 DROP TABLE IF EXISTS `product_category`;
 CREATE TABLE `product_category`  (
   `category_id` smallint(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '分类ID',
-  `category_name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类名称',
-  `category_code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类编码',
+  `category_name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类名称',
+  `category_code` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类编码',
   `parent_id` smallint(0) UNSIGNED NOT NULL DEFAULT 0 COMMENT '父分类ID',
   `category_level` tinyint(0) NOT NULL DEFAULT 1 COMMENT '分类层级',
   `category_status` tinyint(0) NOT NULL DEFAULT 1 COMMENT '分类状态',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`category_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_comment
@@ -336,13 +336,13 @@ CREATE TABLE `product_comment`  (
   `product_id` int(0) UNSIGNED NOT NULL COMMENT '商品ID',
   `order_id` bigint(0) UNSIGNED NOT NULL COMMENT '订单ID',
   `customer_id` int(0) UNSIGNED NOT NULL COMMENT '用户ID',
-  `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '评论标题',
-  `content` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '评论内容',
+  `title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论标题',
+  `content` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论内容',
   `audit_status` tinyint(0) NOT NULL COMMENT '审核状态:0未审核1已审核',
   `audit_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '评论时间',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`comment_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品评论表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品评论表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_info
@@ -350,9 +350,9 @@ CREATE TABLE `product_comment`  (
 DROP TABLE IF EXISTS `product_info`;
 CREATE TABLE `product_info`  (
   `product_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '商品ID',
-  `product_code` char(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品编码',
-  `product_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品名称',
-  `bar_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '国条码',
+  `product_code` char(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品编码',
+  `product_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品名称',
+  `bar_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '国条码',
   `brand_id` int(0) UNSIGNED NOT NULL COMMENT '品牌表的ID',
   `one_category_id` smallint(0) UNSIGNED NOT NULL COMMENT '一级分类ID',
   `two_category_id` smallint(0) UNSIGNED NOT NULL COMMENT '二级分类ID',
@@ -366,14 +366,14 @@ CREATE TABLE `product_info`  (
   `length` float NULL DEFAULT NULL COMMENT '商品长度',
   `heigh` float NULL DEFAULT NULL COMMENT '商品高度',
   `width` float NULL DEFAULT NULL COMMENT '商品宽度',
-  `color_type` enum('红','黄','蓝','黒') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `color_type` enum('红','黄','蓝','黒') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `production_date` datetime(0) NOT NULL COMMENT '生产日期',
   `shelf_life` int(0) NOT NULL COMMENT '商品有效期',
-  `descript` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品描述',
+  `descript` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品描述',
   `indate` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '商品录入时间',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`product_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_pic_info
@@ -382,14 +382,14 @@ DROP TABLE IF EXISTS `product_pic_info`;
 CREATE TABLE `product_pic_info`  (
   `product_pic_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '商品图片ID',
   `product_id` int(0) UNSIGNED NOT NULL COMMENT '商品ID',
-  `pic_desc` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图片描述',
-  `pic_url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '图片URL',
+  `pic_desc` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片描述',
+  `pic_url` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片URL',
   `is_master` tinyint(0) NOT NULL DEFAULT 0 COMMENT '是否主图:0.非主图1.主图',
   `pic_order` tinyint(0) NOT NULL DEFAULT 0 COMMENT '图片排序',
   `pic_status` tinyint(0) NOT NULL DEFAULT 1 COMMENT '图片是否有效:0无效 1有效',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`product_pic_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品图片信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品图片信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_supplier_info
@@ -397,18 +397,18 @@ CREATE TABLE `product_pic_info`  (
 DROP TABLE IF EXISTS `product_supplier_info`;
 CREATE TABLE `product_supplier_info`  (
   `supplier_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '供应商ID',
-  `supplier_code` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '供应商编码',
-  `supplier_name` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '供应商名称',
+  `supplier_code` char(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '供应商编码',
+  `supplier_name` char(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '供应商名称',
   `supplier_type` tinyint(0) NOT NULL COMMENT '供应商类型:1.自营,2.平台',
-  `link_man` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '供应商联系人',
-  `phone_number` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '联系电话',
-  `bank_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '供应商开户银行名称',
-  `bank_account` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '银行账号',
-  `address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '供应商地址',
+  `link_man` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '供应商联系人',
+  `phone_number` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '联系电话',
+  `bank_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '供应商开户银行名称',
+  `bank_account` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '银行账号',
+  `address` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '供应商地址',
   `supplier_status` tinyint(0) NOT NULL DEFAULT 0 COMMENT '状态:0禁用,1启用',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`supplier_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '供应商信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '供应商信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for shipping_info
@@ -430,18 +430,18 @@ CREATE TABLE `shipping_info`  (
 DROP TABLE IF EXISTS `warehouse_info`;
 CREATE TABLE `warehouse_info`  (
   `w_id` smallint(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '仓库ID',
-  `warehouse_sn` char(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '仓库编码',
-  `warehouse_name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '仓库名称',
-  `warehouse_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '仓库电话',
-  `contact` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '仓库联系人',
+  `warehouse_sn` char(5) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '仓库编码',
+  `warehouse_name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '仓库名称',
+  `warehouse_phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '仓库电话',
+  `contact` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '仓库联系人',
   `province` smallint(0) NOT NULL COMMENT '省',
   `city` smallint(0) NOT NULL COMMENT '市',
   `district` smallint(0) NOT NULL COMMENT '区',
-  `address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '仓库地址',
+  `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '仓库地址',
   `warehouse_status` tinyint(0) NOT NULL DEFAULT 1 COMMENT '仓库状态:0禁用,1启用',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`w_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '仓库信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '仓库信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for warehouse_proudct
@@ -457,6 +457,6 @@ CREATE TABLE `warehouse_proudct`  (
   `average_cost` decimal(8, 2) NOT NULL DEFAULT 0.00 COMMENT '移动加权成本',
   `modified_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`wp_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品库存表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品库存表' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
