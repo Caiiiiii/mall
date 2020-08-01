@@ -1,9 +1,13 @@
 package com.online.mall.mapper;
 
+import com.online.mall.dto.PermissionInfo;
 import com.online.mall.dto.RolePermissionRelation;
 import com.online.mall.dto.RolePermissionRelationExample;
-import java.util.List;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface RolePermissionRelationMapper {
     /**
@@ -93,4 +97,11 @@ public interface RolePermissionRelationMapper {
      * @mbg.generated Fri Jul 17 15:24:46 CST 2020
      */
     int updateByPrimaryKey(RolePermissionRelation record);
+
+    @Delete("delete from role_permission_relation where role_id = #{0}")
+    void deleteAllByRoleId(Long roleId);
+
+    @Select("select b.* from role_permission_relation a inner " +
+            "join permission_info b on a.permission_id = b.permission_id where a.role_id = #{0}")
+    List<PermissionInfo> getPermissionByRoleId(Long roleId);
 }

@@ -2,8 +2,10 @@ package com.online.mall.mapper;
 
 import com.online.mall.dto.RoleInfo;
 import com.online.mall.dto.RoleInfoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface RoleInfoMapper {
     /**
@@ -93,4 +95,7 @@ public interface RoleInfoMapper {
      * @mbg.generated Fri Jul 17 15:24:47 CST 2020
      */
     int updateByPrimaryKey(RoleInfo record);
+
+    @Select("select * from role_info where name =#{0} limit 1" )
+    RoleInfo findRoleByName(String name);
 }

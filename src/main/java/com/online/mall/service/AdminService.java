@@ -4,6 +4,8 @@ import com.online.mall.dto.AdminInfo;
 import com.online.mall.dto.AdminLogin;
 import com.online.mall.dto.param.AdminParam;
 
+import java.util.List;
+
 public interface AdminService {
    AdminInfo getAdminInfoByName(String name);
 
@@ -11,4 +13,7 @@ public interface AdminService {
 
    AdminLogin register(AdminParam adminParam);
 
+
+
+   boolean updateRole(Long adminId, List<Long> roleIds);
 }

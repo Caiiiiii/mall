@@ -1,9 +1,9 @@
 package com.online.mall.config.authHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.online.mall.dto.AdminLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +29,7 @@ import java.util.Map;
         @Override
         public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                             Authentication authentication) throws IOException {
-            AdminLogin userDetails = (AdminLogin)authentication.getPrincipal();
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             System.out.println("管理员 " + userDetails.getUsername() + " 登录");
             Map<String,String> map=new HashMap<>(2);
             map.put("code", "200");

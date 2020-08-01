@@ -2,8 +2,12 @@ package com.online.mall.mapper;
 
 import com.online.mall.dto.AdminRoleRelation;
 import com.online.mall.dto.AdminRoleRelationExample;
-import java.util.List;
+import com.online.mall.dto.RoleInfo;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface AdminRoleRelationMapper {
     /**
@@ -93,4 +97,15 @@ public interface AdminRoleRelationMapper {
      * @mbg.generated Fri Jul 17 15:24:47 CST 2020
      */
     int updateByPrimaryKey(AdminRoleRelation record);
+
+    @Select("select * from admin_role_relation where admin_id = #{0}")
+    List<Integer> selectRoleListByAdminId(Long adminId);
+
+    @Delete("delete  from admin_role_relation where admin_id = #{0}")
+    void deleteByAdminId(Long adminId);
+
+
+    @Select("select b.* from admin_role_relation a inner " +
+            "join role_info b on a.role_id = b.role_id where a.admin_id = #{0}")
+    List<RoleInfo> getRolesByAdminId(Integer adminId);
 }
