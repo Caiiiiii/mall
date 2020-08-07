@@ -1,4 +1,4 @@
-package com.online.mall.config;
+package com.online.mall.config.securityRelated;
 
 import com.online.mall.service.serviceImpl.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
