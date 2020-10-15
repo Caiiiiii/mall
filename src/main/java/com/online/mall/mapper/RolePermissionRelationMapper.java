@@ -1,6 +1,7 @@
 package com.online.mall.mapper;
 
 import com.online.mall.dto.PermissionInfo;
+import com.online.mall.dto.RoleInfo;
 import com.online.mall.dto.RolePermissionRelation;
 import com.online.mall.dto.RolePermissionRelationExample;
 import org.apache.ibatis.annotations.Delete;
@@ -104,4 +105,6 @@ public interface RolePermissionRelationMapper {
     @Select("select b.* from role_permission_relation a inner " +
             "join permission_info b on a.permission_id = b.permission_id where a.role_id = #{0}")
     List<PermissionInfo> getPermissionByRoleId(Long roleId);
+
+    List<RoleInfo> selectAllRoles();
 }

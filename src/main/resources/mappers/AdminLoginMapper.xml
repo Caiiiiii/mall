@@ -17,6 +17,11 @@
 <!--  <insert id="addAdminLogin" parameterType="com.online.mall.dto.AdminLogin">-->
 <!--    insert-->
 <!--  </insert>-->
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete admin_login,admin_info from admin_login left join admin_info
+    on admin_login.admin_id = admin_info.admin_id
+    where admin_login.admin_id=#{adminId}
+  </delete>
 
 
   <sql id="Example_Where_Clause">

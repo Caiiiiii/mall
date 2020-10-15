@@ -104,4 +104,6 @@ public interface AdminLoginMapper {
      * 添加AdminLogin 信息
      * */
     void addAdminLogin(AdminLogin adminLogin);
+
+    int delete(Integer id);
 }

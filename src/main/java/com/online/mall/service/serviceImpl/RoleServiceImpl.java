@@ -48,17 +48,9 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean deleteRole(Long roleId) {
-        try {
-            if(roleInfoMapper.selectByPrimaryKey(roleId) == null){
-                return false;
-            }
-            roleInfoMapper.deleteByPrimaryKey(roleId);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+    public Integer deleteRole(Long roleId) {
+         int count = roleInfoMapper.deleteByPrimaryKey(roleId);
+           return count;
     }
 
     @Override
@@ -79,5 +71,15 @@ public class RoleServiceImpl implements RoleService {
         }
 
         return false;
+    }
+
+    @Override
+    public List<RoleInfo> selectAllRoles() {
+        return  roleInfoMapper.selectAllRoles();
+    }
+
+    @Override
+    public RoleInfo getRole(Long roleId) {
+        return  roleInfoMapper.selectByPrimaryKey(roleId);
     }
 }

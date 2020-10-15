@@ -7,7 +7,6 @@ import com.online.mall.service.AdminService;
 import com.online.mall.utils.api.CommonResult;
 import com.online.mall.utils.api.ResponseResult;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -39,27 +38,39 @@ public class AdminController {
 
 
 
-    @ApiOperation("根据名字查找一个用户")
-    @GetMapping("/info")
-    public ResponseResult<AdminInfo> getAdminInfoByName(@RequestParam("name") @ApiParam("名字") String name){
-       try {
-           AdminInfo adminInfo = adminService.getAdminInfoByName(name);
-           return CommonResult.success(adminInfo);
-       }catch (Exception e){
-           return CommonResult.serverError(e.toString());
-       }
-    }
+//    @ApiOperation("根据名字查找一个用户")
+//    @GetMapping("/info")
+//    public ResponseResult<AdminInfo> getAdminInfoByName(@RequestParam("name") @ApiParam("名字") String name){
+//       try {
+//           AdminInfo adminInfo = adminService.getAdminInfoByName(name);
+//           return CommonResult.success(adminInfo);
+//       }catch (Exception e){
+//           return CommonResult.serverError(e.toString());
+//       }
+//    }
 
-    @ApiOperation("测试注册")
+    @ApiOperation("注册")
     @Transactional
-    @PostMapping("/register")
+    @PostMapping("/users")
     public ResponseResult<AdminInfo> register(@RequestBody AdminParam adminParam){
 
         AdminLogin adminLogin =  adminService.register(adminParam);
+        System.out.println("测试"+adminLogin);
         if (adminLogin == null){
             return  CommonResult.failed();
         }
         return  CommonResult.success();
+    }
+
+    @ApiOperation("删除")
+    @Transactional
+    @DeleteMapping("/users/{id}")
+    public ResponseResult<AdminInfo> delete( @PathVariable Integer id){
+        int count = adminService.delete(id);
+        if(count > 0){
+            return  CommonResult.success();
+        }
+        return CommonResult.failed();
     }
 
 

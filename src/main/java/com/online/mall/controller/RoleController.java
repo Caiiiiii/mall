@@ -21,12 +21,25 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @ApiOperation("获取所有角色")
+    @GetMapping("")
+    @ResponseBody
+    public  ResponseResult<List<RoleInfo>> selectAllRoles(){
+       List<RoleInfo> roleInfoList = roleService.selectAllRoles();
+       return CommonResult.success(roleInfoList);
+    }
 
-
+    @ApiOperation("获取对应角色")
+    @GetMapping("/{roleId}")
+    @ResponseBody
+    public  ResponseResult<RoleInfo> selectRole(@PathVariable Long roleId){
+        RoleInfo roleInfo = roleService.getRole(roleId);
+        return CommonResult.success(roleInfo);
+    }
 
 
     @ApiOperation("新增角色")
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseResult<String> createRole(@RequestBody RoleInfo roleInfo){
         if(roleInfo.getName() == null){return CommonResult.failed("Request is nothing");}
 
@@ -37,13 +50,13 @@ public class RoleController {
     }
 
     @ApiOperation("删除角色")
-    @PostMapping("/delete/{roleId}")
+    @DeleteMapping("/{roleId}")
     @ResponseBody
-    public ResponseResult<Long> deleteRole(@PathVariable Long roleId){
+    public ResponseResult<String> deleteRole(@PathVariable Long roleId){
 
         if(roleId == 0){return  CommonResult.failed("Request is nothing");}
 
-        if (roleService.deleteRole(roleId)){
+        if (roleService.deleteRole(roleId) > 0){
             return CommonResult.success("delete role success!");
         }
         return  CommonResult.failed("there is not this roleId");

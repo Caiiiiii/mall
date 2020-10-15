@@ -75,7 +75,7 @@ public class AdminInfo implements Serializable {
      *
      * @mbg.generated Fri Jul 17 15:24:47 CST 2020
      */
-    private Integer mobilePhone;
+    private String mobilePhone;
 
     /**
      * Database Column Remarks:
@@ -257,7 +257,7 @@ public class AdminInfo implements Serializable {
      *
      * @mbg.generated Fri Jul 17 15:24:47 CST 2020
      */
-    public Integer getMobilePhone() {
+    public String getMobilePhone() {
         return mobilePhone;
     }
 
@@ -269,7 +269,7 @@ public class AdminInfo implements Serializable {
      *
      * @mbg.generated Fri Jul 17 15:24:47 CST 2020
      */
-    public void setMobilePhone(Integer mobilePhone) {
+    public void setMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
     }
 

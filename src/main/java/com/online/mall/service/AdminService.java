@@ -16,4 +16,6 @@ public interface AdminService {
 
 
    boolean updateRole(Long adminId, List<Long> roleIds);
+
+    int delete(Integer id);
 }

@@ -117,8 +117,11 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
          return  false;
     }
 
-
-
+    @Override
+    public int delete(Integer id) {
+      int count = adminLoginMapper.delete(id);
+      return count;
+    }
 
 
     @Override

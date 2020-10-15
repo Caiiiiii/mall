@@ -121,6 +121,9 @@
     from role_info
     where role_id = #{roleId,jdbcType=BIGINT}
   </select>
+  <select id="selectAllRoles" resultMap="BaseResultMap">
+    SELECT * from role_info
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
       WARNING - @mbg.generated

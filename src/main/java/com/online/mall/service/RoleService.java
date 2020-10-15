@@ -14,7 +14,11 @@ public interface RoleService {
 
     RoleInfo findRoleByName(String name);
 
-    boolean deleteRole(Long roleId);
+    Integer deleteRole(Long roleId);
 
     boolean updatePermission(Long roleId, List<Long> permissionIds);
+
+    List<RoleInfo> selectAllRoles();
+
+    RoleInfo getRole(Long roleId);
 }
