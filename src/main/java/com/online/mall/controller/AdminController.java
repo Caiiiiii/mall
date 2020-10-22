@@ -2,6 +2,7 @@ package com.online.mall.controller;
 
 import com.online.mall.dto.AdminInfo;
 import com.online.mall.dto.AdminLogin;
+import com.online.mall.dto.RoleInfo;
 import com.online.mall.dto.param.AdminParam;
 import com.online.mall.service.AdminService;
 import com.online.mall.utils.api.CommonResult;
@@ -49,6 +50,18 @@ public class AdminController {
 //       }
 //    }
 
+
+//    @ApiOperation("登录")
+//    @Transactional
+//    @PostMapping("/login")
+//    public ResponseResult<AccessToken> login(@Valid @RequestBody  AdminLoginParam adminLoginParam){
+//        return  CommonResult.success(adminService.login(adminLoginParam));
+//
+//    }
+
+
+
+
     @ApiOperation("注册")
     @Transactional
     @PostMapping("/users")
@@ -57,7 +70,7 @@ public class AdminController {
         AdminLogin adminLogin =  adminService.register(adminParam);
         System.out.println("测试"+adminLogin);
         if (adminLogin == null){
-            return  CommonResult.failed();
+            return  CommonResult.failed("返回NULL");
         }
         return  CommonResult.success();
     }
@@ -89,6 +102,19 @@ public class AdminController {
         }
         return CommonResult.failed("update role failed");
     }
+
+    @ApiOperation("获取该角色的所有权限")
+    @PostMapping("/role/{id}}")
+    @ResponseBody
+    public ResponseResult<List<RoleInfo>> getRolesById(@PathVariable Integer id){
+             List<RoleInfo> roleInfoList = adminService.getRolesById(id);
+                 return CommonResult.success(roleInfoList);
+
+
+
+    }
+
+
 
 
     

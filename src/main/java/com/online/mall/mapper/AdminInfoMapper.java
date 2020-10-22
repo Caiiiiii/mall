@@ -2,12 +2,12 @@ package com.online.mall.mapper;
 
 import com.online.mall.dto.AdminInfo;
 import com.online.mall.dto.AdminInfoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface AdminInfoMapper {
     /**
      * 根据名字查询

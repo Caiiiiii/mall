@@ -4,9 +4,12 @@ import com.online.mall.dto.RoleInfo;
 import com.online.mall.dto.RoleInfoExample;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
+@Repository
 public interface RoleInfoMapper {
      List<RoleInfo> selectAllRoles();
 

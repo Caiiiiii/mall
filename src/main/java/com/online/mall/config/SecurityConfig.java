@@ -1,111 +1,68 @@
 package com.online.mall.config;
 
-import com.online.mall.config.authHandler.FuryAuthFailureHandler;
-import com.online.mall.config.authHandler.FuryAuthSuccessHandler;
-import com.online.mall.config.authHandler.MyLogoutSuccessHandler;
-import com.online.mall.config.authHandler.RestAuthAccessDeniedHandler;
+import com.online.mall.config.JwtFilter.JWTAuthenticationFilter;
+import com.online.mall.config.JwtFilter.JWTAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * @ClassName SecurityConfig
  * @Create by Cai on 2020/7/7 12:29
  **/
 
-@Configuration
 @EnableWebSecurity
-public class SecurityConfig  extends WebSecurityConfigurerAdapter {
+// 至于为什么要配置这个，嘿嘿，卖个关子
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /**
-     * 依赖注入自定义的登录成功处理器
-     */
     @Autowired
-    private FuryAuthSuccessHandler furyAuthSuccessHandler;
-    /**
-     * 依赖注入自定义的登录失败处理器
-     */
-    @Autowired
-    private FuryAuthFailureHandler furyAuthFailureHandler;
-    /**
-     * 依赖注入自定义的注销成功的处理器
-     */
-    @Autowired
-    private MyLogoutSuccessHandler myLogoutSuccessHandler;
+    // 因为UserDetailsService的实现类实在太多啦，这里设置一下我们要注入的实现类
+    @Qualifier("customUserDetailsServiceImpl")
+    private UserDetailsService userDetailsService;
 
-
-    /**
-     * 注册没有权限的处理器
-     */
-    @Autowired
-    private RestAuthAccessDeniedHandler restAuthAccessDeniedHandler;
-
-    /***注入自定义的CustomPermissionEvaluator*/
-//    @Bean
-//    public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
-//        DefaultWebSecurityExpressionHandler handler = new DefaultWebSecurityExpressionHandler();
-//        handler.setPermissionEvaluator(new AdminPermissionEvaluator());
-//        return handler;
-//    }
-//
-//    /***注入我们自己的登录逻辑验证器AuthenticationProvider*/
-//    @Autowired
-//    private AuthenticationProvider authenticationProvider;
-
-
-
+    // 加密密码的，安全第一嘛~
     @Bean
-    @Override
-    protected UserDetailsService userDetailsService() {
-
-        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        UserDetails userDetails = User.withUsername("zhangsan").password(passwordEncoder.encode("123456")).roles("ADMIN").build();
-
-        return new InMemoryUserDetailsManager(userDetails);
-
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
-    //configure配置自定义拦截规则
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/admin/login/**").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest()
-                .authenticated()
-
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                // 测试用资源，需要验证了的用户才能访问
+                .antMatchers("/admin/**").authenticated()
+                .antMatchers("/admin/login").permitAll()
+                // 其他都放行了
+                .anyRequest().permitAll()
                 .and()
-                //form表单认证
-//            .formLogin()
-//                .loginPage("/login.html")
-//                .loginProcessingUrl("/login")
-//                .successHandler(furyAuthSuccessHandler)
-//                .failureHandler(new AuthenticationFailureHandler() {
-//                    @Override
-//                    public void onAuthenticationFailure(HttpServletRequest httpServletRequest,
-//                                                        HttpServletResponse httpServletResponse,
-//                                                        AuthenticationException e)
-//                            throws IOException, ServletException {
-//                        // do something
-//                        System.out.println("login failed!");
-//
-//                    }
-//                })
-//                .permitAll()
-//                .and()
-                .csrf().disable();
-//
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                // 不需要session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        return source;
+    }
 }

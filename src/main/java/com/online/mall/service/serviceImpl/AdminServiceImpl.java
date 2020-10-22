@@ -1,6 +1,9 @@
 package com.online.mall.service.serviceImpl;
 
-import com.online.mall.dto.*;
+import com.online.mall.dto.AdminInfo;
+import com.online.mall.dto.AdminLogin;
+import com.online.mall.dto.AdminRoleRelation;
+import com.online.mall.dto.RoleInfo;
 import com.online.mall.dto.param.AdminParam;
 import com.online.mall.mapper.AdminInfoMapper;
 import com.online.mall.mapper.AdminLoginMapper;
@@ -9,15 +12,10 @@ import com.online.mall.mapper.RolePermissionRelationMapper;
 import com.online.mall.service.AdminService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +30,7 @@ import java.util.List;
  **/
 @Service
 
-public class AdminServiceImpl implements AdminService, UserDetailsService {
+public class AdminServiceImpl implements AdminService {
 
 
     @Autowired
@@ -47,6 +45,12 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
 
     @Autowired
     private RolePermissionRelationMapper rolePermissionRelationMapper;
+
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
+
+//    @Autowired
+//    private JWTUtil jwtProvider;
 
     @Override
     public AdminInfo getAdminInfoByName(String name) {
@@ -75,7 +79,7 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
             if(findAdminByUserName(adminLogin.getLoginName()) != null){
                 return null ;
             }
-            int primary = adminLoginMapper.insert(adminLogin);
+            int primaryLogin = adminLoginMapper.insert(adminLogin);
 
             //插入 AdminInfo 信息
             AdminInfo adminInfo = new AdminInfo();
@@ -83,12 +87,15 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
             adminInfo.setAdminId(adminLogin.getAdminId());
             adminInfo.setModifiedTime(new Date());
             adminInfo.setRegisterTime(new Date());
-            adminInfoMapper.insert(adminInfo);
-            return adminLogin;
+            int primaryInfo = adminInfoMapper.insert(adminInfo);
+            if (primaryLogin > 0 && primaryInfo > 0 ){
+                return adminLogin;
+            }
+            return null;
         }catch (Exception e){
              e.printStackTrace();
         }
-        return  null;
+      return null;
 
     }
 
@@ -123,33 +130,37 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
       return count;
     }
 
+    @Override
+    public List<RoleInfo> getRolesById(Integer id) {
+        return     adminRoleRelationMapper.getRolesByAdminId(id);
+    }
+
+
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AdminLogin adminLogin = adminLoginMapper.findAdminByUserName(username);
+    public RoleInfo getRoleById(Integer adminId) {
+        return adminLoginMapper.getRoleByAdminId(adminId);
+    }
 
-            if (adminLogin == null) {
-                throw new UsernameNotFoundException("用户名不存在");
-            }
+//    @Override
+//    public AccessToken login(AdminLoginParam adminLoginParam) {
+//
+//       // log.debug("进入login方法");
+//        // 1 创建UsernamePasswordAuthenticationToken
+//        UsernamePasswordAuthenticationToken usernameAuthentication =
+//                new UsernamePasswordAuthenticationToken(adminLoginParam.getLoginName(), adminLoginParam.getPassword());
+//        // 2 认证
+//        Authentication authentication = this.authenticationManager.authenticate(usernameAuthentication);
+//        // 3 保存认证信息
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        // 4 生成自定义token
+//        AccessToken accessToken = jwtProvider.createToken((UserDetails) authentication.getPrincipal());
+//
+//        UserDetail userDetail = (UserDetail) authentication.getPrincipal();
+//        // 放入缓存
+//       // caffeineCache.put(CacheName.USER, userDetail.getUsername(), userDetail);
+//        return accessToken;
+//    }
 
-        List<RoleInfo> roles = adminRoleRelationMapper.getRolesByAdminId(adminLogin.getAdminId());
-
-          //将所有的角色对应的资源权限全部放入user对应的grantedAuthority集合中
-        List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
-           for (RoleInfo role : roles) {
-               List<PermissionInfo> permissionInfos = rolePermissionRelationMapper.getPermissionByRoleId(role.getRoleId());
-               for (PermissionInfo p : permissionInfos) {
-                   if (p != null && p.getName() != null){
-                       SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(p.getName());
-                       grantedAuthorities.add(grantedAuthority);
-                    }
-               }
-           }
-
-      return new org.springframework.security.core.userdetails.User(
-              adminLogin.getLoginName()
-              ,adminLogin.getPassword()
-              ,grantedAuthorities);
-       }
 
 }
